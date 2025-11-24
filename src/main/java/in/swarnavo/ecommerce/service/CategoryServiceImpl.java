@@ -5,10 +5,7 @@ import in.swarnavo.ecommerce.exceptions.ResourceNotFoundException;
 import in.swarnavo.ecommerce.model.Category;
 import in.swarnavo.ecommerce.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -20,7 +17,11 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll();
+        if(categories.isEmpty()) {
+            throw new APIException("No category created till now");
+        }
+        return categories;
     }
 
     @Override

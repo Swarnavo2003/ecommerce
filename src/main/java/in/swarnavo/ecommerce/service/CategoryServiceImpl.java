@@ -1,5 +1,6 @@
 package in.swarnavo.ecommerce.service;
 
+import in.swarnavo.ecommerce.exceptions.ResourceNotFoundException;
 import in.swarnavo.ecommerce.model.Category;
 import in.swarnavo.ecommerce.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public String deleteCategory(Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Category with id " + categoryId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category","categoryId", categoryId));
         categoryRepository.delete(category);
         return "Category with categoryId " + categoryId + " deleted successfully";
     }
@@ -38,8 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category updateCategory(Long categoryId, Category category) {
         Category existingCategory = categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Category with id " + categoryId + " not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Category","categoryId", categoryId));
 
         existingCategory.setCategoryName(category.getCategoryName());
         return categoryRepository.save(existingCategory);

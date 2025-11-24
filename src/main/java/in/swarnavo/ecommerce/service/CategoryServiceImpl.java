@@ -1,5 +1,6 @@
 package in.swarnavo.ecommerce.service;
 
+import in.swarnavo.ecommerce.exceptions.APIException;
 import in.swarnavo.ecommerce.exceptions.ResourceNotFoundException;
 import in.swarnavo.ecommerce.model.Category;
 import in.swarnavo.ecommerce.repositories.CategoryRepository;
@@ -24,6 +25,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void createCategory(Category category) {
+        Category savedCategory = categoryRepository.findByCategoryName(category.getCategoryName());
+        if(savedCategory != null) {
+            throw new APIException("Category with name " + category.getCategoryName() + " already exists !!!");
+        }
         categoryRepository.save(category);
     }
 

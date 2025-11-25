@@ -1,6 +1,7 @@
 package in.swarnavo.ecommerce.controller;
 
 import in.swarnavo.ecommerce.model.Category;
+import in.swarnavo.ecommerce.payload.CategoryDTO;
 import in.swarnavo.ecommerce.payload.CategoryResponse;
 import in.swarnavo.ecommerce.service.CategoryService;
 import jakarta.validation.Valid;
@@ -24,9 +25,9 @@ public class CategoryController {
     }
 
     @PostMapping("/admin/categories")
-    public ResponseEntity<String> createCategory(@Valid @RequestBody Category category) {
-        categoryService.createCategory(category);
-        return new ResponseEntity<>("Category Added Successfully", HttpStatus.CREATED);
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+        CategoryDTO savedCategory = categoryService.createCategory(categoryDTO);
+        return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/admin/categories/{categoryId}")

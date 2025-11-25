@@ -3,8 +3,11 @@ package in.swarnavo.ecommerce.service;
 import in.swarnavo.ecommerce.exceptions.APIException;
 import in.swarnavo.ecommerce.exceptions.ResourceNotFoundException;
 import in.swarnavo.ecommerce.model.Category;
+import in.swarnavo.ecommerce.payload.CategoryDTO;
+import in.swarnavo.ecommerce.payload.CategoryResponse;
 import in.swarnavo.ecommerce.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +18,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
+    private final ModelMapper modelMapper;
+
     @Override
-    public List<Category> getAllCategories() {
+    public CategoryResponse getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
         if(categories.isEmpty()) {
             throw new APIException("No category created till now");
         }
-        return categories;
+
+        List<CategoryDTO> categoryDTOS = categories.stream()
+                .map(category -> modelMapper.map(category, CategoryDTO.class))
+                .toList();
+
+        CategoryResponse categoryResponse = new CategoryResponse();
+        categoryResponse.setContent(categoryDTOS);
+        return categoryResponse;
     }
 
     @Override

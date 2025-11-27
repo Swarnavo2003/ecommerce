@@ -1,6 +1,7 @@
 package in.swarnavo.ecommerce.controller;
 
 import in.swarnavo.ecommerce.payload.ProductDTO;
+import in.swarnavo.ecommerce.payload.ProductResponse;
 import in.swarnavo.ecommerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,5 +22,11 @@ public class ProductController {
     ) {
        ProductDTO product = productService.addProduct(categoryId, productDTO);
        return new ResponseEntity<>(product, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/public/products")
+    public ResponseEntity<ProductResponse> getAllProducts() {
+        ProductResponse productResponse = productService.getAllProducts();
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 }

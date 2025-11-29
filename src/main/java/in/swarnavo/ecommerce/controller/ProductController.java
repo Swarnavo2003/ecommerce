@@ -3,6 +3,7 @@ package in.swarnavo.ecommerce.controller;
 import in.swarnavo.ecommerce.payload.ProductDTO;
 import in.swarnavo.ecommerce.payload.ProductResponse;
 import in.swarnavo.ecommerce.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class ProductController {
 
     @PostMapping("/admin/categories/{categoryId}/product")
     public ResponseEntity<ProductDTO> addProduct(
-            @RequestBody ProductDTO productDTO,
+            @Valid @RequestBody ProductDTO productDTO,
             @PathVariable Long categoryId
     ) {
        ProductDTO product = productService.addProduct(categoryId, productDTO);
@@ -47,7 +48,7 @@ public class ProductController {
 
     @PutMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> updateProduct(
-            @RequestBody ProductDTO productDTO,
+            @Valid @RequestBody ProductDTO productDTO,
             @PathVariable Long productId
     ) {
         ProductDTO updatedProductDTO = productService.updateProduct(productId, productDTO);

@@ -1,4 +1,4 @@
-package in.swarnavo.ecommerce.security;
+package in.swarnavo.ecommerce.security.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

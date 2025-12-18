@@ -5,6 +5,7 @@ import in.swarnavo.ecommerce.model.Address;
 import in.swarnavo.ecommerce.model.User;
 import in.swarnavo.ecommerce.payload.AddressDTO;
 import in.swarnavo.ecommerce.repositories.AddressRepository;
+import in.swarnavo.ecommerce.util.AuthUtil;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,12 @@ public class AddressServiceImpl implements AddressService{
     @Override
     public List<AddressDTO> getAddresses() {
         List<Address> addressList = addressRepository.findAll();
-        List<AddressDTO> addressDTOList = addressList
+        return addressList
                 .stream()
                 .map(address ->
                         modelMapper.map(address, AddressDTO.class)
                 )
                 .toList();
-        return addressDTOList;
     }
 
     @Override
@@ -54,5 +54,16 @@ public class AddressServiceImpl implements AddressService{
                 .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
 
         return modelMapper.map(address, AddressDTO.class);
+    }
+
+    @Override
+    public List<AddressDTO> getUserAddresses(User user) {
+        List<Address> addressList = user.getAddresses();
+        return addressList
+                .stream()
+                .map(address ->
+                        modelMapper.map(address, AddressDTO.class)
+                )
+                .toList();
     }
 }

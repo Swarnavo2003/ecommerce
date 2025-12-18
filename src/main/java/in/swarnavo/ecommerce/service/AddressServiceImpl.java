@@ -1,5 +1,6 @@
 package in.swarnavo.ecommerce.service;
 
+import in.swarnavo.ecommerce.exceptions.ResourceNotFoundException;
 import in.swarnavo.ecommerce.model.Address;
 import in.swarnavo.ecommerce.model.User;
 import in.swarnavo.ecommerce.payload.AddressDTO;
@@ -45,5 +46,13 @@ public class AddressServiceImpl implements AddressService{
                 )
                 .toList();
         return addressDTOList;
+    }
+
+    @Override
+    public AddressDTO getAddressById(Long addressId) {
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new ResourceNotFoundException("Address", "addressId", addressId));
+
+        return modelMapper.map(address, AddressDTO.class);
     }
 }

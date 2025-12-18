@@ -13,7 +13,7 @@ public class ResourceNotFoundException extends RuntimeException {
         this.fieldName = fieldName;
     }
 
-    public ResourceNotFoundException() {
+    public ResourceNotFoundException(String s, Long addressId) {
     }
 
     public ResourceNotFoundException(String resourceName, String field, Long fieldId) {

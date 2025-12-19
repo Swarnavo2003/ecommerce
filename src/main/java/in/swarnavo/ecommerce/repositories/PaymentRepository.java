@@ -1,9 +1,9 @@
 package in.swarnavo.ecommerce.repositories;
 
-import in.swarnavo.ecommerce.model.OrderItem;
+import in.swarnavo.ecommerce.model.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
+public interface PaymentRepository extends JpaRepository<Payment, Long> {
 }

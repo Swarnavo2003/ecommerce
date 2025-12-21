@@ -4,6 +4,8 @@ import in.swarnavo.ecommerce.config.AppConstants;
 import in.swarnavo.ecommerce.payload.ProductDTO;
 import in.swarnavo.ecommerce.payload.ProductResponse;
 import in.swarnavo.ecommerce.service.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,8 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Create Product", description = "API to create product")
     @PostMapping("/admin/categories/{categoryId}/product")
     public ResponseEntity<ProductDTO> addProduct(
             @Valid @RequestBody ProductDTO productDTO,
@@ -29,6 +33,8 @@ public class ProductController {
        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Get All Products", description = "API to fetch all products")
     @GetMapping("/public/products")
     public ResponseEntity<ProductResponse> getAllProducts(
             @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
@@ -40,6 +46,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Get Product By Id", description = "API to fetch products by id")
     @GetMapping("/public/categories/{categoryId}/products")
     public ResponseEntity<ProductResponse> getProductsByCategory(
             @PathVariable Long categoryId,
@@ -52,6 +60,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Get Products By Keyword", description = "API to fetch products by keyword")
     @GetMapping("/public/products/keyword/{keyword}")
     public ResponseEntity<ProductResponse> getProductsByKeyword(
             @PathVariable String keyword,
@@ -64,6 +74,8 @@ public class ProductController {
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Update Product", description = "API to update address")
     @PutMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> updateProduct(
             @Valid @RequestBody ProductDTO productDTO,
@@ -73,12 +85,16 @@ public class ProductController {
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Delete Product", description = "API to delete address")
     @DeleteMapping("/admin/products/{productId}")
     public ResponseEntity<ProductDTO> deleteProduct(@PathVariable Long productId) {
         ProductDTO deletedProduct = productService.deleteProduct(productId);
         return new ResponseEntity<>(deletedProduct, HttpStatus.OK);
     }
 
+    @Tag(name = "Product APIs", description = "APIs for managing products")
+    @Operation(summary = "Update Product Image", description = "API to update product image")
     @PutMapping("/admin/products/{productId}/image")
     public ResponseEntity<ProductDTO> updateProductImage(
             @PathVariable Long productId,

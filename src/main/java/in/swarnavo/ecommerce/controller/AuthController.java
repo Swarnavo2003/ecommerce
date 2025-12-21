@@ -11,6 +11,8 @@ import in.swarnavo.ecommerce.security.request.SignupRequest;
 import in.swarnavo.ecommerce.security.response.MessageResponse;
 import in.swarnavo.ecommerce.security.response.UserInfoResponse;
 import in.swarnavo.ecommerce.security.services.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -47,6 +49,8 @@ public class AuthController {
     @Autowired
     RoleRepository roleRepository;
 
+    @Tag(name = "Auth APIs", description = "APIs for managing authentication")
+    @Operation(summary = "Login User", description = "API to login users")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication;
@@ -81,6 +85,8 @@ public class AuthController {
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(response);
     }
 
+    @Tag(name = "Auth APIs", description = "APIs for managing authentication")
+    @Operation(summary = "Register User", description = "API to register users")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
         if(userRepository.existsByUsername(signupRequest.getUsername())) {
@@ -133,6 +139,8 @@ public class AuthController {
         return ResponseEntity.ok(new MessageResponse("User Registered successfully!"));
     }
 
+    @Tag(name = "Auth APIs", description = "APIs for managing authentication")
+    @Operation(summary = "Fetch Current Username", description = "API to fetch current username")
     @GetMapping("/username")
     public String currentUserName(Authentication authentication) {
         if(authentication != null) {
@@ -142,6 +150,8 @@ public class AuthController {
         }
     }
 
+    @Tag(name = "Auth APIs", description = "APIs for managing authentication")
+    @Operation(summary = "Fetch User Details", description = "API to fetch user details")
     @GetMapping("/user")
     public ResponseEntity<?> getUserDetails(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -155,6 +165,8 @@ public class AuthController {
         return ResponseEntity.ok().body(response);
     }
 
+    @Tag(name = "Auth APIs", description = "APIs for managing authentication")
+    @Operation(summary = "Logout", description = "API to logout users")
     @PostMapping("/signout")
     public ResponseEntity<?> signoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanCookie();
